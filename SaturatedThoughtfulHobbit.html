@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>My experiment</title>
+  <script src="jspsych-6.1.0/jspsych.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-survey-text.js"></script>
+  <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css">
+  </link>
+</head>
+
+<body></body>
+
+<script>
+  //declaring timeline
+  var timeline = [];
+
+  //instructions
+  var typing_instructions = {
+    type: "instructions",
+    pages: [
+      "This experiment will guide you through a series of questions that each ask you to choose between two rewards. One of the rewards will require you to do a certain task to receive it." +
+      "<br><br><b>We will be choosing 3 participants at random</b> to receive one of their rewards (and if they chose the reward that requires a task, they will have to perform the task prior)." +
+      "<br><br>So, please choose as though every reward is going to be given to you.",
+      "<p>The task you will be performing to receive rewards is a backwards typing task.</p>" +
+      "First, please perform this backwards typing task to get a feel for how difficult it is",
+    ],
+    show_clickable_nav: true,
+  };
+  timeline.push(typing_instructions);
+
+  //generating a word list that will be sampled in backwards_typing
+  var words =
+    "Mouth Feature Flash Harlot Humid Gutsy Grape Atmosphere Bludgeon Imprint Club Diamond Brick Anywhere Bawling Guns Hazard Deplorable Barbaric Flesh Bull Dangerous Numeric Cougar Headache Drifter Hatch Bring Federation Limitless Heist Collarbone Healthy Fictional Fin Delicatessen Amazingly Communion Become Accomplice Frequent Faithless Hideous Cryptic Impure Computation Elsewhere Carnival Adherence Juvenile"
+
+  var word_array = words.split(" ");
+
+  // declaring typing task
+  var backwards_typing = {
+    type: 'survey-text',
+    preamble: '<p>Here is a list of <b>50 words</b>. Please type each of these words <b>backwards</b> (e.g. "heaven rat lamppost" gets typed as "nevaeh tar tsoppmal"). You will not be timed.</p>',
+    questions: [{
+      prompt: '<p style = "font-size : 15px;font-style:italic;">' + word_array.join(" ").toLowerCase() + '</p>',
+      required: false,
+      name: "NAME OF WORDARRAY",
+      placeholder: "Please type all 50 words backwards here",
+      rows: 10,
+      columns: 60
+    }]
+  }
+  timeline.push(backwards_typing);
+
+  //establishing order of variables for reverse typing task
+
+  //declaring what the reward will be for the initial task
+  var initial_SE_reward = jsPsych.randomization.sampleWithReplacement([7, 8, 9, 10, 11, 12], 1)[0];
+  var indifference_point = 0;
+
+  //declaring variables for binary search algoirthm
+  var SE_array = [];
+  for (var i = 1; i <= 20; i++) {
+    SE_array.push(i);
+  }
+  var first = 0;
+  var last = SE_array.length - 1;
+
+  //declaring randomized effort levels CONSIDER MAKING THESE TIMELINE variables
+  //and then invoking them in discounting_skeleton with jsPsych.timelineVariables!!!
+  var randomized_effort_levels = jsPsych.randomization.shuffle([25, 50, 75, 100]);
+  var first_effortlevel = randomized_effort_levels[0];
+  var second_effortlevel = randomized_effort_levels[1];
+  var third_effortlevel = randomized_effort_levels[2];
+  var fourth_effortlevel = randomized_effort_levels[3];
+
+
+
+
+  //>_____________________FIRST TIME POINT (TIMEPOINT0__________________<//
+
+  //*************FIRST EFFORT LEVEL********************
+
+  function question_stimuli(time_point_variation) {
+    return [
+      //stimuli for first effort level
+      {
+        stimulus: function() {
+          if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(jsPsych.data.get().last(1).values()[0].key_press) == 'l') {
+            first = SE_array.indexOf(initial_SE_reward + 1);
+            initial_SE_reward = SE_array[Math.floor((first + last) / 2)]; //finds the index of the new middle and locates it in SE_array, then assigns the value of that index to initial_SE_reward
+            return "Press 'A' to if you would you prefer to simply receive <b>$" + initial_SE_reward + `</b> ${time_point_variation}
+            <br><br>OR<br><br>
+            Press 'L' if you would prefer to type ` + first_effortlevel + ` words backwards for <b>$20 </b>${time_point_variation}.`;
+          } else if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(jsPsych.data.get().last(1).values()[0].key_press) == 'a') {
+            last = SE_array.indexOf(initial_SE_reward - 1);
+            initial_SE_reward = SE_array[Math.floor((first + last) / 2)]; //finds the index of the new middle and locates it in SE_array, then assigns the value of that index to initial_SE_reward
+            return `Press 'A' to if you would you prefer to simply receive <b>$` + initial_SE_reward + `</b> ${time_point_variation}
+            <br><br>OR<br><br>
+            Press 'L' if you would prefer to type ` + first_effortlevel + ` words backwards for <b>$20 </b>${time_point_variation}.`;
+          }
+        },
+        skeleton: initial_SE_reward,
+        specific_effort_level: first_effortlevel
+      },
+
+      //stimuli for second effort level
+      {
+        stimulus: function() {
+          if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(jsPsych.data.get().last(1).values()[0].key_press) == 'l') {
+            first = SE_array.indexOf(initial_SE_reward + 1);
+            initial_SE_reward = SE_array[Math.floor((first + last) / 2)]; //finds the index of the new middle and locates it in SE_array, then assigns the value of that index to initial_SE_reward
+            return "Press 'A' to if you would you prefer to simply receive <b>$" + initial_SE_reward + `</b> ${time_point_variation}
+          <br><br>OR<br><br>
+          Press 'L' if you would prefer to type ` + second_effortlevel + ` words backwards for <b>$20 </b>${time_point_variation}.`;
+          } else if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(jsPsych.data.get().last(1).values()[0].key_press) == 'a') {
+            last = SE_array.indexOf(initial_SE_reward - 1);
+            initial_SE_reward = SE_array[Math.floor((first + last) / 2)]; //finds the index of the new middle and locates it in SE_array, then assigns the value of that index to initial_SE_reward
+            return "Press 'A' to if you would you prefer to simply receive <b>$" + initial_SE_reward + `</b> ${time_point_variation}
+          <br><br>OR<br><br>
+          Press 'L' if you would prefer to type ` + second_effortlevel + ` words backwards for <b>$20 </b>${time_point_variation}.`;
+          }
+        },
+        skeleton: initial_SE_reward,
+        specific_effort_level: second_effortlevel
+      },
+
+      //stimuli for third effort level
+      {
+        stimulus: function() {
+          if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(jsPsych.data.get().last(1).values()[0].key_press) == 'l') {
+            first = SE_array.indexOf(initial_SE_reward + 1);
+            initial_SE_reward = SE_array[Math.floor((first + last) / 2)]; //finds the index of the new middle and locates it in SE_array, then assigns the value of that index to initial_SE_reward
+            return "Press 'A' to if you would you prefer to simply receive <b>$" + initial_SE_reward + `</b> ${time_point_variation}
+        <br><br>OR<br><br>
+        Press 'L' if you would prefer to type ` + third_effortlevel + " words backwards for <b>$20.</b>";
+          } else if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(jsPsych.data.get().last(1).values()[0].key_press) == 'a') {
+            last = SE_array.indexOf(initial_SE_reward - 1);
+            initial_SE_reward = SE_array[Math.floor((first + last) / 2)]; //finds the index of the new middle and locates it in SE_array, then assigns the value of that index to initial_SE_reward
+            return "Press 'A' to if you would you prefer to simply receive <b>$" + initial_SE_reward + `</b> ${time_point_variation}
+        <br><br>OR<br><br>
+        Press 'L' if you would prefer to type ` + third_effortlevel + ` words backwards for <b>$20 </b>${time_point_variation}.`;
+          }
+        },
+        skeleton: initial_SE_reward,
+        specific_effort_level: third_effortlevel
+      },
+
+      //stimuli for fourth effort level
+      {
+        stimulus: function() {
+          if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(jsPsych.data.get().last(1).values()[0].key_press) == 'l') {
+            first = SE_array.indexOf(initial_SE_reward + 1);
+            initial_SE_reward = SE_array[Math.floor((first + last) / 2)]; //finds the index of the new middle and locates it in SE_array, then assigns the value of that index to initial_SE_reward
+            return "Press 'A' to if you would you prefer to simply receive <b>$" + initial_SE_reward + `</b> ${time_point_variation}
+      <br><br>OR<br><br>
+      Press 'L' if you would prefer to type ` + fourth_effortlevel + " words backwards for <b>$20.</b>";
+          } else if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(jsPsych.data.get().last(1).values()[0].key_press) == 'a') {
+            last = SE_array.indexOf(initial_SE_reward - 1);
+            initial_SE_reward = SE_array[Math.floor((first + last) / 2)]; //finds the index of the new middle and locates it in SE_array, then assigns the value of that index to initial_SE_reward
+            return "Press 'A' to if you would you prefer to simply receive <b>$" + initial_SE_reward + `</b> ${time_point_variation}
+      <br><br>OR<br><br>
+      Press 'L' if you would prefer to type ` + fourth_effortlevel + ` words backwards for <b>$20 </b>${time_point_variation}.`;
+          }
+        },
+        skeleton: initial_SE_reward,
+        specific_effort_level: fourth_effortlevel
+      },
+
+    ];
+  }
+
+
+  function discounting_skeleton(time_point_variation) {
+    return {
+      type: 'html-keyboard-response',
+      stimulus: function() {
+        //setting first and last so that they're the same each time this timeline is iterated through
+        return "Press 'A' to if you would you prefer to simply receive <b>$" + jsPsych.timelineVariable('skeleton', true) + `</b> ${time_point_variation}
+          <br><br>OR<br><br>
+          Press 'L' if you would prefer to type ` + jsPsych.timelineVariable('specific_effort_level', true) + ` words backwards for <b>$20</b> ${time_point_variation}.`;
+      },
+      choices: ['a', 'l'],
+      data: {
+        'SE_reward_offered': initial_SE_reward,
+        'indifference_point': 0,
+        'effort_level': function() {
+          return jsPsych.timelineVariable('specific_effort_level', true)
+        }
+      },
+      on_start: function() {
+        first = 0;
+        last = SE_array.length - 1;
+      }
+    };
+  };
+
+
+  var adjusted_immediate_discounting = {
+    type: 'html-keyboard-response',
+    stimulus: jsPsych.timelineVariable('stimulus'),
+    choices: ['a', 'l'],
+    on_finish: function(data) {
+      data.SE_reward_offered = initial_SE_reward;
+      data.indifference_point = indifference_point;
+      data.effort_level = jsPsych.timelineVariable('specific_effort_level', true);
+    },
+
+  }
+
+
+
+
+  var finding_indifference_point = {
+    timeline: [adjusted_immediate_discounting],
+    loop_function: function(data) {
+      var SE_rewards_taken_at_effort_level = jsPsych.data.get().filter({
+        key_press: 65,
+        effort_level: data.values()[0].effort_level
+      }).select('SE_reward_offered').values;
+      console.log(SE_rewards_taken_at_effort_level);
+      console.log(Math.max.apply(Math, SE_rewards_taken_at_effort_level));
+      var LH_rewards_taken_at_effort_level = jsPsych.data.get().filter({
+        key_press: 76,
+        effort_level: data.values()[0].effort_level
+      }).select('SE_reward_offered').values;
+      console.log(LH_rewards_taken_at_effort_level);
+      //if loop runs if their indifference_point is found
+      //i.e. IF THEY PRESS 'A' TO A NUMBER ONE MORE THAN THE MAX LH REWARD THEY'VE ACCEPTED OR IF THEY PRESS 'L' TO A NUMBER ONE LESS THAN THE MIN SE THEY'VE ACCEPTED
+      if ((
+          (jsPsych.pluginAPI.convertKeyCharacterToKeyCode('a') === data.values()[0].key_press) && Math.max.apply(Math, LH_rewards_taken_at_effort_level) ===
+          (data.values()[0].SE_reward_offered - 1)
+        ) ||
+        (jsPsych.pluginAPI.convertKeyCharacterToKeyCode('l') === data.values()[0].key_press) && Math.min.apply(Math, SE_rewards_taken_at_effort_level) ===
+        (data.values()[0].SE_reward_offered + 1)
+      ) {
+        data.values()[0].indifference_point = Math.min.apply(Math, SE_rewards_taken_at_effort_level);
+        initial_SE_reward = jsPsych.randomization.sampleWithReplacement([7, 8, 9, 10, 11, 12], 1)[0]; // resets initial_SE_reward in preparation for the next effort level.
+        return false;
+      }
+      //If their indiff point is lower than 1 then default to 0
+      else if (jsPsych.pluginAPI.convertKeyCharacterToKeyCode('a') === data.values()[0].key_press && (data.values()[0].SE_reward_offered === 1)) {
+        data.values()[0].indifference_point = 1;
+        initial_SE_reward = jsPsych.randomization.sampleWithReplacement([7, 8, 9, 10, 11, 12], 1)[0]; // resets initial_SE_reward in preparation for the next effort level.
+        return false;
+      }
+      //If their indfiff point is higher than 20 then default to 20
+      else if (jsPsych.pluginAPI.convertKeyCharacterToKeyCode('l') === data.values()[0].key_press && (data.values()[0].SE_reward_offered === 20)) {
+        data.values()[0].indifference_point = 20;
+        initial_SE_reward = jsPsych.randomization.sampleWithReplacement([7, 8, 9, 10, 11, 12], 1)[0]; // resets initial_SE_reward in preparation for the next effort level.
+        return false;
+      }
+      //else loop runs if they haven't reached their indifference point yet.
+      else {
+        indifference_point = 0;
+        return true;
+      }
+    }
+  }
+
+  function thank_you(time_point_variation) {
+    return {
+      type: 'html-keyboard-response',
+      stimulus: `Thank you. <br><br>In the next few questions, you'll be asked what you would do if you had to wait <b>${time_point_variation}</b> before receiving the reward and exerting the effort.
+    <br><br>Press any key to continue.`
+    };
+  };
+
+  var break_trial = {
+    type: 'html-keyboard-response',
+    stimulus: function() {
+      if (jsPsych.data.get().last(1).values()[0].indifference_point > 0) {
+        return "This text displaying means you have successfully found an indifference point at: <b>" + jsPsych.data.get().last(1).values()[0].effort_level +
+          " words of effort</b>. <br>In future this trial might be used to introduce the next effort level.";
+      } else {
+        return "indiff point of last trial wasn't >0";
+      }
+    },
+  }
+
+
+
+  var timepoint0 = {
+    timeline: [discounting_skeleton("now"), finding_indifference_point, break_trial],
+    timeline_variables: question_stimuli("now"),
+    data: {
+      timepoint: 0
+    },
+  }
+  timeline.push(timepoint0);
+  timeline.push(thank_you("one week"))
+  //>_______END OF FIRST TIME POINT (TIMEPOINT0________zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz___<//
+
+
+
+  var timepoint1 = {
+    timeline: [discounting_skeleton("one week from now"), finding_indifference_point, break_trial],
+    timeline_variables: question_stimuli("one week from now"),
+    data: {
+      timepoint: 1
+    },
+  }
+  timeline.push(timepoint1);
+
+  var timepoint2 = {
+    timeline: [thank_you("one month"), discounting_skeleton("one month from now"), finding_indifference_point, break_trial],
+    timeline_variables: question_stimuli("one month from now"),
+    data: {
+      timepoint: 2
+    },
+  }
+  timeline.push(timepoint2);
+
+
+  //initialising experiment
+  jsPsych.init({
+    timeline: timeline,
+    default_iti: 500,
+    on_finish: function() {
+      jsPsych.data.displayData();
+    }
+  });
+</script>
+
+
+
+</html>
