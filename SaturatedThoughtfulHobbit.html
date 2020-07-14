@@ -323,13 +323,10 @@
         key_press: 65,
         effort_level: data.values()[0].effort_level
       }).select('SE_reward_offered').values;
-      console.log(SE_rewards_taken_at_effort_level);
-      console.log(Math.max.apply(Math, SE_rewards_taken_at_effort_level));
       var LH_rewards_taken_at_effort_level = jsPsych.data.get().filter({
         key_press: 76,
         effort_level: data.values()[0].effort_level
       }).select('SE_reward_offered').values;
-      console.log(LH_rewards_taken_at_effort_level);
       //if loop runs if their indifference_point is found
       //i.e. IF THEY PRESS 'A' TO A NUMBER ONE MORE THAN THE MAX LH REWARD THEY'VE ACCEPTED OR IF THEY PRESS 'L' TO A NUMBER ONE LESS THAN THE MIN SE THEY'VE ACCEPTED
       if ((
@@ -405,8 +402,8 @@
       timepoint: 1
     },
   }
-  // timeline.push(timepoint1);
-  // timeline.push(thank_you("<b>one month</b>"))
+  timeline.push(timepoint1);
+  timeline.push(thank_you("<b>one month</b>"))
 
   //creating variables for timepoint2
   var timepoint2 = {
@@ -416,7 +413,7 @@
       timepoint: 2
     },
   }
-  // timeline.push(timepoint2);
+  timeline.push(timepoint2);
 
 
   //checking use of computer before initialising the timeline
@@ -453,7 +450,7 @@
       jsPsych.data.addProperties({
         sona_id: sona_id
       });
-      var completion_url = "https://unsw-psy.sona-systems.com/webstudy_credit.aspx?experiment_id=1303&credit_token=cb04072680b04d1fb39d3192bc310f49&survey_code=" + sona_id;
+      var completion_url = "https://unsw-psy.sona-systems.com/webstudy_credit.aspx?experiment_id=1373&credit_token=9a2498f9a35248b582fc119f6729baa5&survey_code=" + sona_id;
       var finish_msg = 'All done! Please click <a href="' + completion_url + '">here</a> to be returned to Sona and receive your credit';
       jsPsych.init({
         timeline: timeline,

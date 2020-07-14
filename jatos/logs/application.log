@@ -1,23 +1,42 @@
-2020-07-13 14:05:07,304 [INFO] - a.e.s.Slf4jLogger - Slf4jLogger started
-2020-07-13 14:05:07,525 [INFO] - p.a.d.DefaultDBApi - Database [default] initialized at jdbc:h2:./database/jatos;MODE=MYSQL;DATABASE_TO_UPPER=FALSE;IGNORECASE=TRUE;DEFAULT_LOCK_TIMEOUT=10000;SELECT_FOR_UPDATE_MVCC=FALSE
-2020-07-13 14:05:07,545 [INFO] - application - Creating Pool for datasource 'default'
-2020-07-13 14:05:07,570 [INFO] - c.z.h.HikariDataSource - HikariPool-1 - Starting...
-2020-07-13 14:05:07,595 [INFO] - c.z.h.HikariDataSource - HikariPool-1 - Start completed.
-2020-07-13 14:05:07,619 [INFO] - p.a.d.HikariCPConnectionPool - datasource [default] bound to JNDI as DefaultDS
-2020-07-13 14:05:08,813 [INFO] - n.s.e.p.s.f.AnnotationSizeOfFilter - Using regular expression provided through VM argument net.sf.ehcache.pool.sizeof.ignore.pattern for IgnoreSizeOf annotation : ^.*cache\..*IgnoreSizeOf$
-2020-07-13 14:05:08,819 [INFO] - n.s.e.p.s.AgentLoader - Unavailable or unrecognised attach API : java.lang.ClassNotFoundException: com.sun.tools.attach.VirtualMachine
-2020-07-13 14:05:08,840 [INFO] - n.s.e.p.s.JvmInformation - Detected JVM data model settings of: 32-Bit HotSpot JVM
-2020-07-13 14:05:08,840 [INFO] - n.s.e.p.i.DefaultSizeOfEngine - using Unsafe sizeof engine
-2020-07-13 14:05:09,711 [INFO] - o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: mysqlPersistenceUnit]
-2020-07-13 14:05:10,015 [INFO] - o.h.Version - HHH000412: Hibernate Core {5.4.2.Final}
-2020-07-13 14:05:10,572 [INFO] - o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
-2020-07-13 14:05:11,097 [INFO] - o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
-2020-07-13 14:05:12,457 [INFO] - o.h.v.i.u.Version - HV000001: Hibernate Validator 6.0.16.Final
-2020-07-13 14:05:14,423 [INFO] - o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2020-07-13 14:05:15,266 [INFO] - g.c.Common - Path to study assets directory is C:\Users\stobi\git\iroh\DSTtrial\jatos\study_assets_root
-2020-07-13 14:05:15,267 [INFO] - g.c.Common - Path to study logs directory is C:\Users\stobi\git\iroh\DSTtrial\jatos\study_logs
-2020-07-13 14:05:15,267 [INFO] - g.c.Common - Path to uploads directory is C:\Users\stobi\git\iroh\DSTtrial\jatos\result_uploads
-2020-07-13 14:05:15,268 [WARN] - g.c.Common - User session validation is switched off. This decreases security.
-2020-07-13 14:05:17,723 [INFO] - g.OnStartStop - JATOS started
-2020-07-13 14:05:19,048 [INFO] - p.a.Play - Application started (Prod) (no global state)
-2020-07-13 14:05:20,680 [INFO] - p.c.s.AkkaHttpServer - Listening for HTTP on /127.0.0.1:9000
+2020-07-14 14:34:10,263 [INFO] - a.e.s.Slf4jLogger - Slf4jLogger started
+2020-07-14 14:34:10,364 [INFO] - p.a.d.DefaultDBApi - Database [default] initialized at jdbc:h2:./database/jatos;MODE=MYSQL;DATABASE_TO_UPPER=FALSE;IGNORECASE=TRUE;DEFAULT_LOCK_TIMEOUT=10000;SELECT_FOR_UPDATE_MVCC=FALSE
+2020-07-14 14:34:10,373 [INFO] - application - Creating Pool for datasource 'default'
+2020-07-14 14:34:10,382 [INFO] - c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2020-07-14 14:34:10,392 [INFO] - c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2020-07-14 14:34:10,404 [INFO] - p.a.d.HikariCPConnectionPool - datasource [default] bound to JNDI as DefaultDS
+2020-07-14 14:34:10,710 [INFO] - n.s.e.p.s.f.AnnotationSizeOfFilter - Using regular expression provided through VM argument net.sf.ehcache.pool.sizeof.ignore.pattern for IgnoreSizeOf annotation : ^.*cache\..*IgnoreSizeOf$
+2020-07-14 14:34:10,713 [INFO] - n.s.e.p.s.AgentLoader - Unavailable or unrecognised attach API : java.lang.ClassNotFoundException: com.sun.tools.attach.VirtualMachine
+2020-07-14 14:34:10,726 [INFO] - n.s.e.p.s.JvmInformation - Detected JVM data model settings of: 32-Bit HotSpot JVM
+2020-07-14 14:34:10,726 [INFO] - n.s.e.p.i.DefaultSizeOfEngine - using Unsafe sizeof engine
+2020-07-14 14:34:11,016 [INFO] - o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: mysqlPersistenceUnit]
+2020-07-14 14:34:11,140 [INFO] - o.h.Version - HHH000412: Hibernate Core {5.4.2.Final}
+2020-07-14 14:34:11,354 [INFO] - o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 14:34:11,571 [INFO] - o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2020-07-14 14:34:12,030 [INFO] - o.h.v.i.u.Version - HV000001: Hibernate Validator 6.0.16.Final
+2020-07-14 14:34:12,778 [INFO] - o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 14:34:13,104 [INFO] - g.c.Common - Path to study assets directory is C:\Users\stobi\git\iroh\DSTtrial\jatos\study_assets_root
+2020-07-14 14:34:13,104 [INFO] - g.c.Common - Path to study logs directory is C:\Users\stobi\git\iroh\DSTtrial\jatos\study_logs
+2020-07-14 14:34:13,104 [INFO] - g.c.Common - Path to uploads directory is C:\Users\stobi\git\iroh\DSTtrial\jatos\result_uploads
+2020-07-14 14:34:13,104 [WARN] - g.c.Common - User session validation is switched off. This decreases security.
+2020-07-14 14:34:14,059 [INFO] - g.OnStartStop - JATOS started
+2020-07-14 14:34:14,586 [INFO] - p.a.Play - Application started (Prod) (no global state)
+2020-07-14 14:34:15,131 [INFO] - p.c.s.AkkaHttpServer - Listening for HTTP on /127.0.0.1:9000
+2020-07-14 14:34:15,637 [WARN] - c.g.a.AuthenticationAction - Authentication failed: remote address 127.0.0.1 tried to access page /
+2020-07-14 14:34:15,707 [INFO] - gui_access - GET /jatos/login (null)
+2020-07-14 14:34:23,081 [INFO] - gui_access - POST /jatos/login (null)
+2020-07-14 14:34:30,183 [INFO] - gui_access - POST /jatos/login (admin)
+2020-07-14 14:34:30,212 [INFO] - gui_access - GET /jatos (admin)
+2020-07-14 14:34:30,510 [INFO] - gui_access - GET /jatos/status (admin)
+2020-07-14 14:34:30,514 [INFO] - gui_access - GET /jatos/studyResults/status (admin)
+2020-07-14 14:34:30,522 [INFO] - gui_access - GET /jatos/sidebarStudyList (admin)
+2020-07-14 14:34:30,552 [INFO] - gui_access - GET /jatos/releaseInfo? (admin)
+2020-07-14 14:34:31,653 [INFO] - g.c.JatosUpdater - Checked GitHub for latest release of JATOS: v3.5.5
+2020-07-14 14:34:32,068 [INFO] - gui_access - GET /jatos/1 (admin)
+2020-07-14 14:34:32,313 [INFO] - gui_access - GET /jatos/sidebarStudyList (admin)
+2020-07-14 14:34:32,382 [INFO] - gui_access - GET /jatos/1/componentsTableData?_=1594694072215 (admin)
+2020-07-14 14:34:35,411 [INFO] - gui_access - GET /jatos/1/export (admin)
+2020-07-14 14:37:56,613 [INFO] - gui_access - GET /jatos/1 (admin)
+2020-07-14 14:37:56,853 [INFO] - gui_access - GET /jatos/sidebarStudyList (admin)
+2020-07-14 14:37:56,927 [INFO] - gui_access - GET /jatos/1/componentsTableData?_=1594694276738 (admin)
+2020-07-14 17:13:18,396 [WARN] - c.z.h.p.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=57m40s133ms944µs800ns).
+2020-07-14 17:27:30,691 [INFO] - gui_access - POST /jatos/login (admin)

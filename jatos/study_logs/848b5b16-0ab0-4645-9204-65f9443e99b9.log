@@ -13,3 +13,5 @@
 {"msg":"Started study run with Jatos worker","batchId":1,"workerId":1,"timestamp":1594293996365}
 {"msg":"Stored component result data","componentUuid":"152c60ad-aa08-40c6-b15a-57d7f65a8d41","workerId":1,"dataHash":"bff9328783abd64242c756c40a4481580f47884ad4134a829d98f35894dd78c5","timestamp":1594294118518}
 {"msg":"Exported result data to file","userName":"Admin","timestamp":1594294184944}
+{"msg":"Locked study","userName":"Admin","timestamp":1594613413726}
+{"msg":"Unlocked study","userName":"Admin","timestamp":1594613415071}
