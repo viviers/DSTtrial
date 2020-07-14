@@ -417,7 +417,9 @@
 
 
   //checking use of computer before initialising the timeline
-  var usingComputer = true; // @@@@@@@@@@@@WRITE FUNCTION HERE that verifies if they are using computer@@@@@@@@@@@@@@@@@@@@@@@@@
+  function detectMob() {
+    return ( ( window.innerWidth <= 800 ) && ( window.innerHeight <= 600 ) );
+  };
 
   var using_mobile_device = {
     type: "instructions",
@@ -426,13 +428,13 @@
     ]
   };
 
-  if (usingComputer === false) {
+  if (detectMob() === true) {
     timeline = [using_mobile_device];
   };
 
   //initialising experiment
 
-  var jatosVersion = true;
+  var jatosVersion = false;
   if (jatosVersion === false) {
     //start the experiment without jatos wrapping
     jsPsych.init({
