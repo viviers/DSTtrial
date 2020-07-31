@@ -15,3 +15,8 @@
 {"msg":"Exported result data to file","userName":"Admin","timestamp":1594294184944}
 {"msg":"Locked study","userName":"Admin","timestamp":1594613413726}
 {"msg":"Unlocked study","userName":"Admin","timestamp":1594613415071}
+{"msg":"Removed result data and files","userName":"Admin","timestamp":1594783258251}
+{"msg":"Removed result data and files","userName":"Admin","timestamp":1594783300713}
+{"msg":"Removed batch","batchId":1,"userName":"Admin","timestamp":1594783300718}
+{"msg":"Removed study","userName":"Admin","timestamp":1594783300792}
+{"msg":"Last entry of the study log","studyUuid":"848b5b16-0ab0-4645-9204-65f9443e99b9","timestamp":1594783300793}

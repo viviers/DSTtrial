@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+<!-- trial session link: http://jatos.psy.unsw.edu.au:9000/publix/230/start?batchId=272&generalMultiple -->
 <head>
   <title>My experiment</title>
   <script src="jatos.js"></script>
@@ -130,9 +130,6 @@ values you opted for in the experiment.`;
     fullscreen_mode: true
   });
 
-  //
-
-
   //instructions
   var typing_instructions = {
     type: "instructions",
@@ -146,6 +143,8 @@ values you opted for in the experiment.`;
     show_clickable_nav: true,
   };
   timeline.push(typing_instructions);
+
+
 
   //generating a word list that will be sampled in backwards_typing
   var words =
@@ -162,16 +161,49 @@ values you opted for in the experiment.`;
       required: false,
       name: "NAME OF WORDARRAY",
       placeholder: "Please type all 50 words backwards here",
-      rows: 10,
-      columns: 60
+      rows: 20,
+      columns: 80
     }]
   }
   timeline.push(backwards_typing);
 
-  //establishing order of variables for reverse typing task
+
+  var failed_typing = {
+    type: 'html-keyboard-response',
+    stimulus: "Please make sure you type all 50 words. Press any key to try again.",
+  }
+
+  var if_node = {
+    timeline: [failed_typing, backwards_typing],
+    loop_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+        var data = jsPsych.data.get().last(1).values()[0];
+        if(data.responses.length < 250){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+timeline.push(if_node);
+
+  //introducing the DST
+  var DST_instructions = {
+    type: "instructions",
+    pages: [
+      "Thank you." +
+      "<br><br>You will now be asked a series of questions about whether you would like to type a number of words backwards for a given reward." +
+      "<br><br>Remember, we will be <b>choosing 3 participants at random</b> to receive one of their rewards (and if they chose the reward that requires a task, they will have to perform the task prior)." +
+      "<br><br>So, please choose as though every reward you choose is <b>real</b> and going to be given to you.",
+    ],
+    show_clickable_nav: true,
+  };
+  timeline.push(DST_instructions);
+
 
   //declaring what the reward will be for the initial task
-  var initial_SE_reward = jsPsych.randomization.sampleWithReplacement([7, 8, 9, 10, 11, 12], 1)[0];
+  var initial_SE_reward = 10;
   var indifference_point = 0;
 
   //declaring variables for binary search algoirthm
@@ -184,11 +216,11 @@ values you opted for in the experiment.`;
 
   //declaring randomized effort levels CONSIDER MAKING THESE TIMELINE variables
   //and then invoking them in discounting_skeleton with jsPsych.timelineVariables!!!
-  var randomized_effort_levels = jsPsych.randomization.shuffle([25, 50, 75, 100]);
-  var first_effortlevel = 75;
-  var second_effortlevel = 25;
-  var third_effortlevel = 100;
-  var fourth_effortlevel = 50;
+  var first_effortlevel = 50;
+  var second_effortlevel = 75;
+  var third_effortlevel = 25;
+  var fourth_effortlevel = 100;
+
 
 
 
@@ -293,7 +325,7 @@ values you opted for in the experiment.`;
       post_trial_gap: 500,
       stimulus: function() {
         //setting first and last so that they're the same each time this timeline is iterated through
-        return "Press 'A' to if you would you prefer to simply receive <b>$" + jsPsych.timelineVariable('skeleton', true) + `</b> ${time_point_variation}
+        return "Press 'A' to if you would you prefer to simply receive <b>$" + initial_SE_reward + `</b> ${time_point_variation}
           <br><br>OR<br><br>
           Press 'L' if you would prefer to type ` + jsPsych.timelineVariable('specific_effort_level', true) + ` words backwards for <b>$20</b> ${time_point_variation}.`;
       },
@@ -373,24 +405,25 @@ values you opted for in the experiment.`;
 
   function thank_you(time_point_variation) {
     return {
-      type: 'html-keyboard-response',
-      stimulus: `Thank you. <br><br>In the next few questions, you'll be asked what you would do if you had to wait <b>${time_point_variation}</b> before receiving the reward and exerting the effort.
-    <br><br>Press any key to continue.`
+      type: 'instructions',
+      pages: [`In the next few questions, you'll be asked what you would do if you had to wait <b>${time_point_variation}</b> before receiving the reward and exerting the effort.`],
+      show_clickable_nav: true,
     };
+
   };
 
   var break_trial = {
-    type: 'html-keyboard-response',
-    stimulus: function() {
-      if (jsPsych.data.get().last(1).values()[0].indifference_point > 0) {
-        return "Thank you for answering these questions about typing " + jsPsych.data.get().last(1).values()[0].effort_level +
-          " words backwards.</b> <br><br>You will now be asked about what you would do if you had to type a different number of words backwards."
-          + "<br><br> Press any key to continue.";
-      } else {
-        return "There seems to be an error. Please close the study and inform Tobias at tobias.johnson@student.unsw.edu.au";
+    type: 'instructions',
+    pages: function() {
+      if (jsPsych.data.get().last(1).values()[0].effort_level === fourth_effortlevel) {
+                return ["Thank you. <br><br>Click next to continue."];
+              } else {
+        return ["Thank you for answering these questions about typing " + jsPsych.data.get().last(1).values()[0].effort_level +
+          " words backwards.</b> <br><br>You will now be asked about what you would do if you had to type a different number of words backwards."];
       }
     },
-  }
+    show_clickable_nav: true,
+  };
 
 
   //creating variables for timepoint0
@@ -445,7 +478,7 @@ values you opted for in the experiment.`;
   };
 
   //initialising experiment
-  var jatosVersion = true;
+  var jatosVersion = false;
   if (jatosVersion === false) {
     //start the experiment without jatos wrapping
     jsPsych.init({
@@ -471,7 +504,7 @@ values you opted for in the experiment.`;
         on_finish: function() {
           var results = jsPsych.data.get().ignore(['internal_node_id', 'button_pressed']).csv();
           jatos.submitResultData(results);
-          document.write(`<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:120%; width:800px; float:right"><p><br><br><br>
+          document.write(`<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:140%; width:800px;"><p><br><br><br>
           ${finish_msg}</p></div></div>`)
         }
       });

@@ -1,0 +1,8 @@
+
+{"msg":"Initial entry","timestamp":1594783406009,"studyUuid":"e37dfe54-ec75-4bac-a42e-51c9fcb27ca6","serversMac":"10-63-C8-B1-FA-4A","hashFunction":"SHA-256"}
+{"msg":"Created study","userName":"Admin","timestamp":1594783406010}
+{"msg":"Study description changed","studyDescriptionHash":"0335f58d299c139789fac19b430d3145fa5bb3f3d69ccc77d9668c9ee0e1f54c","userName":"Admin","timestamp":1594783406010}
+{"msg":"Started study run with Jatos worker","batchId":33,"workerId":1,"timestamp":1594783523842}
+{"msg":"Started study run with Jatos worker","batchId":33,"workerId":1,"timestamp":1594788110940}
+{"msg":"Started study run with Jatos worker","batchId":33,"workerId":1,"timestamp":1594789777577}
+{"msg":"Started study run with Jatos worker","batchId":33,"workerId":1,"timestamp":1594791917018}

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+<!-- trial session link: http://jatos.psy.unsw.edu.au:9000/publix/230/start?batchId=272&generalMultiple -->
 <head>
   <title>My experiment</title>
   <script src="jatos.js"></script>
@@ -11,7 +11,11 @@
   <script src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>
   <script src="jspsych-6.1.0/plugins/jspsych-survey-text.js"></script>
   <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css">
+  <style>.jspsych-content {max-width: 45em;}
+  </style>
   </link>
+
+
 </head>
 
 <body></body>
@@ -80,15 +84,19 @@
   welcome.ethics.selection =
     'You are invited to take part in this research study. The research study aims to investigate how learning to associate stimuli with aversive outcomes might literally change perception. You have been invited because you are undertaking Psychology 1A at the University of New South Wales and because you completed a questionnaire during pre-screening.';
   welcome.ethics.description =
-    'If you decide to take part in the research study, we will ask you to complete a computerised attention task and to learn to pair some images with graphic, unpleasant images. Each graphic image will be shown for about 2 seconds. The attention task involves looking for and responding to rotated targets embedded in a rapid stream of images and to report the orientation of the target. The learning period (i.e., with adverse images) and the attention task will be repeated three times. We will also collect some demographic information from you and ask you to complete a questionnaire about how you have been feeling over the past week.';
+    `If you decide to take part in the research study, you will first spend some time typing words backwards. For the
+rest of the experiment, you will answer a series of questions that ask you to choose between different options,
+which may or may not be associated with reward. Sometimes these rewards will be hypothetical, but we will
+randomly select three participants to actually receive a Coles/Myer gift card in the amount of one of the reward
+values you opted for in the experiment.`;
 
 
   var welcome2 = {
     type: "html-button-response",
-    stimulus: '<p style="text-align:right;font-size:' + smallFontSize + ';margin:' + mWidth + ';margin-top:30px;">Approval No ????@@@@@@@</p>' +
+    stimulus: '<p style="text-align:right;font-size:' + smallFontSize + ';margin:' + mWidth + ';margin-top:30px;">Approval No. 3376</p>' +
       '			<p style="text-align:center;"><b>THE UNIVERSITY OF NEW SOUTH WALES<br>' +
       '			PARTICIPANT INFORMATION STATEMENT</b><br><br><b>Choose a task!</b><br></p>' +
-      '			<p style="text-align:left;line-height:120%;font-size:' + smallFontSize + ';margin:' + mWidth + ';"><b>What is the research study about?</b><br>' + welcome.ethics.selection + '<br><br>' +
+      '			<p style="text-align:left;font-size:' + smallFontSize + ';margin:' + mWidth + ';"><b>What is the research study about?</b><br>' + welcome.ethics.selection + '<br><br>' +
       '       <b>Who is conducting this research?</b><br>' +
       '			The study is being carried out by the following researchers: Tobias Johnson and Steven B. Most, UNSW Sydney School of Psychology<br><br>' +
       '			<b>Do I have to take part in this research study?</b><br>' +
@@ -100,7 +108,9 @@
       ' 			Researchers at UNSW are requested to store their aggregated research data in the UNSW data repository, this is a system called ResData. Once the aggregated data are deposited into this repository, they will be retained in this system permanently, but in a format where your data will not be individually identifiable.' +
       '			Answers that you give during the study may be used for publication, and may be shared with other researchers. However this data will be de-identified meaning that it will not be linked to personal information about you.<br><br>' +
       '			<b>Total Participation Time and Recompense to Participants</b><br>' +
-      '			In total participation will take 30 minutes. You will receive 1 SONA credit as recompense for your participation.</b> <br><br>' +
+      '			In total, participation in this study will require about 30 minutes. You will receive 0.5 SONA credit as recompense for your participation.</b> <br><br>' +
+      '			<b>How and when will I find out what the results of the research study are?</b><br>' +
+      '			The research team intend to publish and/ report the results of the research study in a variety of ways. All information published will be done in a way that will not identify you. If you would like to receive a copy of the results you can let the research team know by e-mailing A/Prof Steven Most (s.most@unsw.edu.au). We will only use these details to send you the results of the research.</b> <br><br>' +
       '			<b>Inquiries</b><br>' +
       '			If you have any questions or concerns following your participation, A/Prof Steven Most (+61 2 9385 3827, email. s.most@unsw.edu.au) will be happy to address them. Complaints about the study may be directed to UNSW Human Research Ethics Coordinator, (phone +61 2 9385 6222, email humanethics@unsw.edu.au).<br><br> ' +
       '			Please keep a copy of this information sheet (you can download the pdf <a href="InformedConsent_3326.pdf" target="_blank">here</a>).<br>' +
@@ -119,9 +129,6 @@
     type: 'fullscreen',
     fullscreen_mode: true
   });
-
-  //
-
 
   //instructions
   var typing_instructions = {
@@ -152,13 +159,25 @@
       required: false,
       name: "NAME OF WORDARRAY",
       placeholder: "Please type all 50 words backwards here",
-      rows: 10,
-      columns: 60
+      rows: 20,
+      columns: 80
     }]
   }
   timeline.push(backwards_typing);
 
-  //establishing order of variables for reverse typing task
+  //introducing the DST
+  var DST_instructions = {
+    type: "instructions",
+    pages: [
+      "Thank you." +
+      "<br><br>You will now be asked a series of questions about whether you would like to type a number of words backwards for a given reward." +
+      "<br><br>Remember, we will be <b>choosing 3 participants at random</b> to receive one of their rewards (and if they chose the reward that requires a task, they will have to perform the task prior)." +
+      "<br><br>So, please choose as though every reward you choose is <b>real</b> and going to be given to you.",
+    ],
+    show_clickable_nav: true,
+  };
+  timeline.push(DST_instructions);
+
 
   //declaring what the reward will be for the initial task
   var initial_SE_reward = jsPsych.randomization.sampleWithReplacement([7, 8, 9, 10, 11, 12], 1)[0];
@@ -174,11 +193,11 @@
 
   //declaring randomized effort levels CONSIDER MAKING THESE TIMELINE variables
   //and then invoking them in discounting_skeleton with jsPsych.timelineVariables!!!
-  var randomized_effort_levels = jsPsych.randomization.shuffle([25, 50, 75, 100]);
-  var first_effortlevel = randomized_effort_levels[0];
-  var second_effortlevel = randomized_effort_levels[1];
-  var third_effortlevel = randomized_effort_levels[2];
-  var fourth_effortlevel = randomized_effort_levels[3];
+  var first_effortlevel = 50;
+  var second_effortlevel = 75;
+  var third_effortlevel = 25;
+  var fourth_effortlevel = 100;
+
 
 
 
@@ -323,13 +342,10 @@
         key_press: 65,
         effort_level: data.values()[0].effort_level
       }).select('SE_reward_offered').values;
-      console.log(SE_rewards_taken_at_effort_level);
-      console.log(Math.max.apply(Math, SE_rewards_taken_at_effort_level));
       var LH_rewards_taken_at_effort_level = jsPsych.data.get().filter({
         key_press: 76,
         effort_level: data.values()[0].effort_level
       }).select('SE_reward_offered').values;
-      console.log(LH_rewards_taken_at_effort_level);
       //if loop runs if their indifference_point is found
       //i.e. IF THEY PRESS 'A' TO A NUMBER ONE MORE THAN THE MAX LH REWARD THEY'VE ACCEPTED OR IF THEY PRESS 'L' TO A NUMBER ONE LESS THAN THE MIN SE THEY'VE ACCEPTED
       if ((
@@ -363,25 +379,28 @@
     }
   }
 
+
   function thank_you(time_point_variation) {
     return {
-      type: 'html-keyboard-response',
-      stimulus: `Thank you. <br><br>In the next few questions, you'll be asked what you would do if you had to wait <b>${time_point_variation}</b> before receiving the reward and exerting the effort.
-    <br><br>Press any key to continue.`
+      type: 'instructions',
+      pages: [`In the next few questions, you'll be asked what you would do if you had to wait <b>${time_point_variation}</b> before receiving the reward and exerting the effort.`],
+      show_clickable_nav: true,
     };
+
   };
 
   var break_trial = {
-    type: 'html-keyboard-response',
-    stimulus: function() {
-      if (jsPsych.data.get().last(1).values()[0].indifference_point > 0) {
-        return "This text displaying means you have successfully found an indifference point at: <b>" + jsPsych.data.get().last(1).values()[0].effort_level +
-          " words of effort</b>. <br>In future this trial might be used to introduce the next effort level.";
-      } else {
-        return "indiff point of last trial wasn't >0";
+    type: 'instructions',
+    pages: function() {
+      if (jsPsych.data.get().last(1).values()[0].effort_level === fourth_effortlevel) {
+                return ["Thank you. <br><br>Click next to continue."];
+              } else {
+        return ["Thank you for answering these questions about typing " + jsPsych.data.get().last(1).values()[0].effort_level +
+          " words backwards.</b> <br><br>You will now be asked about what you would do if you had to type a different number of words backwards."];
       }
     },
-  }
+    show_clickable_nav: true,
+  };
 
 
   //creating variables for timepoint0
@@ -405,8 +424,8 @@
       timepoint: 1
     },
   }
-  // timeline.push(timepoint1);
-  // timeline.push(thank_you("<b>one month</b>"))
+  timeline.push(timepoint1);
+  timeline.push(thank_you("<b>one month</b>"))
 
   //creating variables for timepoint2
   var timepoint2 = {
@@ -416,11 +435,13 @@
       timepoint: 2
     },
   }
-  // timeline.push(timepoint2);
+  timeline.push(timepoint2);
 
 
-  //checking use of computer before initialising the timeline
-  var usingComputer = true; // @@@@@@@@@@@@WRITE FUNCTION HERE that verifies if they are using computer@@@@@@@@@@@@@@@@@@@@@@@@@
+  //checking use of computer before running the timeline. If mob is used then replacce contents of timeline with using_mobile_device
+  function detectMob() {
+    return ((window.innerWidth <= 800) && (window.innerHeight <= 600));
+  };
 
   var using_mobile_device = {
     type: "instructions",
@@ -429,12 +450,11 @@
     ]
   };
 
-  if (usingComputer === false) {
+  if (detectMob() === true) {
     timeline = [using_mobile_device];
   };
 
   //initialising experiment
-
   var jatosVersion = true;
   if (jatosVersion === false) {
     //start the experiment without jatos wrapping
@@ -453,7 +473,7 @@
       jsPsych.data.addProperties({
         sona_id: sona_id
       });
-      var completion_url = "https://unsw-psy.sona-systems.com/webstudy_credit.aspx?experiment_id=1303&credit_token=cb04072680b04d1fb39d3192bc310f49&survey_code=" + sona_id;
+      var completion_url = "https://unsw-psy.sona-systems.com/webstudy_credit.aspx?experiment_id=1373&credit_token=9a2498f9a35248b582fc119f6729baa5&survey_code=" + sona_id;
       var finish_msg = 'All done! Please click <a href="' + completion_url + '">here</a> to be returned to Sona and receive your credit';
       jsPsych.init({
         timeline: timeline,
@@ -461,7 +481,7 @@
         on_finish: function() {
           var results = jsPsych.data.get().ignore(['internal_node_id', 'button_pressed']).csv();
           jatos.submitResultData(results);
-          document.write(`<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:120%; width:800px; float:right"><p><br><br><br>
+          document.write(`<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:140%; width:800px;"><p><br><br><br>
           ${finish_msg}</p></div></div>`)
         }
       });
